@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
-const {HandleMongooseError} = require("../helpers")
+const {handleMongooseError} = require("../helpers")
 
 const genres = ["fantastic", "love"];
 const isbnRegexp = /\d{3}-\d{3}-\d-\d{5}-\d/;
@@ -33,7 +33,7 @@ const bookSchema = new Schema({
     }
 }, {versionKey: false, timestamps: true});
 
-bookSchema.post("save", HandleMongooseError);
+bookSchema.post("save", handleMongooseError);
 
 const addSchema = Joi.object({
     title: Joi.string().required(),
