@@ -3,9 +3,15 @@ const {Book} = require("../models/book")
 const { HttpError, ctrlWrapper } = require("../helpers")
 
 const getAll = async (req, res) => {
-    const {query} = req;
-    const result = await Book.find(query, "-createdAt -updatedAt");
-    res.json(result)
+    const {query, page = 1, limit = 3} = req;
+    const skip = (page - 1) * limit;
+    const result = await Book.find(query, "-createdAt -updatedAt", {skip, limit});
+    const total = await Book.count();
+    res.json({
+        total,
+        page,
+        items: result
+    })
 }
 
 const getById = async (req, res) => {
