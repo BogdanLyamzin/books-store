@@ -3,7 +3,7 @@ const {Book} = require("../models/book")
 const { HttpError, ctrlWrapper } = require("../helpers")
 
 const getAll = async (req, res) => {
-    const {query, page = 1, limit = 3} = req;
+    const {page = 1, limit = 3, ...query} = req.query;
     const skip = (page - 1) * limit;
     const result = await Book.find(query, "-createdAt -updatedAt", {skip, limit});
     const total = await Book.count();
